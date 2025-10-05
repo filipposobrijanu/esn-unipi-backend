@@ -1,0 +1,10 @@
+POST http://localhost:4000/addproduct
+Content-Type: application/json
+
+{
+  "name": "Test Product",
+  "image": "http://localhost:4000/images/product_1759503125862.jpg",
+  "category": "test",
+  "new_price": 50,
+  "old_price": 75
+}
