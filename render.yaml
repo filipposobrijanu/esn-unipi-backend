@@ -1,13 +1,12 @@
 services:
   - type: web
-    name: backend
+    name: esn-unipi-backend
     env: node
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        fromDatabase:
-          name: your-db-name
-          property: connectionString
+        value: mongodb+srv://monkass:ESNUnipi@esnunipi.mhxfudu.mongodb.net/ESNUnipi

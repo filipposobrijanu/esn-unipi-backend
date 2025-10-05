@@ -1,4 +1,3 @@
-const port = 4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -10,19 +9,20 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
-// Database connection with mongodb
-mongoose.connect(
-  "mongodb+srv://monkass:ESNUnipi@esnunipi.mhxfudu.mongodb.net/ESNUnipi"
-);
+// Use environment variable for port, fallback to 4000 for local development
+const port = process.env.PORT || 4000;
+
+// Get MongoDB URI from environment variable or use local
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  "mongodb+srv://monkass:ESNUnipi@esnunipi.mhxfudu.mongodb.net/ESNUnipi";
 // Add error handling:
+// Database connection with mongodb
 mongoose
-  .connect(
-    "mongodb+srv://monkass:ESNUnipi@esnunipi.mhxfudu.mongodb.net/ESNUnipi",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
