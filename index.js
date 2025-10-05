@@ -9,6 +9,8 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
+const API_URL = "https://esn-unipi-backend.onrender.com";
+
 // Use environment variable for port, fallback to 4000 for local development
 const port = process.env.PORT || 4000;
 
@@ -52,7 +54,7 @@ app.use("/images", express.static("upload/images"));
 app.post("/upload", upload.single("newthing"), (req, res) => {
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `${API_URL}/images/${req.file.filename}`,
   });
 });
 
@@ -63,7 +65,7 @@ app.post(
   (req, res) => {
     try {
       const imageUrls = req.files.map(
-        (file) => `http://localhost:${port}/images/${file.filename}`
+        (file) => `${API_URL}/images/${file.filename}`
       );
 
       res.json({
