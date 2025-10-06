@@ -6,14 +6,46 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
 app.use(express.json());
 app.use(cors());
 
 const API_URL = "https://esn-unipi-backend.onrender.com";
-
-// Use environment variable for port, fallback to 4000 for local development
 const port = process.env.PORT || 4000;
 
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "your_cloud_name",
+  api_key: process.env.CLOUDINARY_API_KEY || "your_api_key",
+  api_secret: process.env.CLOUDINARY_API_SECRET || "your_api_secret",
+});
+
+// Cloudinary storage for multer
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "esn-unipi", // Folder name in Cloudinary
+    format: async (req, file) => "png", // Convert all to png or keep original
+    public_id: (req, file) => {
+      return `image_${Date.now()}`; // Unique filename
+    },
+  },
+});
+
+// Image storage engine
+/*const storage = multer.diskStorage({
+  destination: "./upload/images",
+  filename: (req, file, cb) => {
+    return cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});*/
+
+const upload = multer({ storage: storage });
 // Get MongoDB URI from environment variable or use local
 const MONGODB_URI =
   process.env.MONGODB_URI ||
@@ -36,22 +68,10 @@ app.get("/", (req, res) => {
   res.send("Express App running");
 });
 
-// Image storage engine
-const storage = multer.diskStorage({
-  destination: "./upload/images",
-  filename: (req, file, cb) => {
-    return cb(
-      null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
-
-const upload = multer({ storage: storage });
-
 // Creating upload endpoint for single image
 app.use("/images", express.static("upload/images"));
-app.post("/upload", upload.single("newthing"), (req, res) => {
+
+/*app.post("/upload", upload.single("newthing"), (req, res) => {
   res.json({
     success: 1,
     image_url: `${API_URL}/images/${req.file.filename}`,
@@ -73,6 +93,46 @@ app.post(
         image_urls: imageUrls,
       });
     } catch (error) {
+      res.status(500).json({
+        success: 0,
+        message: "Multiple image upload failed",
+      });
+    }
+  }
+);*/
+// Updated upload endpoint for single image
+app.post("/upload", upload.single("newthing"), (req, res) => {
+  try {
+    // Cloudinary returns secure_url in req.file
+    const imageUrl = req.file.path; // This is the Cloudinary URL
+
+    res.json({
+      success: 1,
+      image_url: imageUrl, // Cloudinary URL that never gets deleted
+    });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({
+      success: 0,
+      message: "Upload failed",
+    });
+  }
+});
+
+// Updated multiple images upload endpoint
+app.post(
+  "/upload-multiple",
+  upload.array("additionalImages", 10),
+  (req, res) => {
+    try {
+      const imageUrls = req.files.map((file) => file.path); // Cloudinary URLs
+
+      res.json({
+        success: 1,
+        image_urls: imageUrls,
+      });
+    } catch (error) {
+      console.error("Multiple upload error:", error);
       res.status(500).json({
         success: 0,
         message: "Multiple image upload failed",
