@@ -26,11 +26,9 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "esn-unipi", // Folder name in Cloudinary
-    format: async (req, file) => "png", // Convert all to png or keep original
-    public_id: (req, file) => {
-      return `image_${Date.now()}`; // Unique filename
-    },
+    folder: "esn-unipi",
+    allowed_formats: ["jpg", "jpeg", "png", "gif", "webp"],
+    transformation: [{ width: 1000, height: 1000, crop: "limit" }],
   },
 });
 
@@ -43,9 +41,9 @@ const storage = new CloudinaryStorage({
       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
     );
   },
-});*/
+});
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });*/
 // Get MongoDB URI from environment variable or use local
 const MONGODB_URI =
   process.env.MONGODB_URI ||
@@ -101,31 +99,65 @@ app.post(
   }
 );*/
 // Updated upload endpoint for single image
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Check if file is an image
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files are allowed!"), false);
+    }
+  },
+});
+
+// Enhanced upload endpoint with better error handling
 app.post("/upload", upload.single("newthing"), (req, res) => {
   try {
-    // Cloudinary returns secure_url in req.file
-    const imageUrl = req.file.path; // This is the Cloudinary URL
+    if (!req.file) {
+      return res.status(400).json({
+        success: 0,
+        message: "No file uploaded",
+      });
+    }
+
+    console.log("File uploaded to Cloudinary:", req.file);
+
+    // Cloudinary returns the URL in req.file.path
+    const imageUrl = req.file.path;
 
     res.json({
       success: 1,
-      image_url: imageUrl, // Cloudinary URL that never gets deleted
+      image_url: imageUrl,
     });
   } catch (error) {
     console.error("Upload error:", error);
     res.status(500).json({
       success: 0,
-      message: "Upload failed",
+      message: "Upload failed: " + error.message,
     });
   }
 });
 
-// Updated multiple images upload endpoint
+// Enhanced multiple upload endpoint
 app.post(
   "/upload-multiple",
   upload.array("additionalImages", 10),
   (req, res) => {
     try {
-      const imageUrls = req.files.map((file) => file.path); // Cloudinary URLs
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          success: 0,
+          message: "No files uploaded",
+        });
+      }
+
+      console.log(`${req.files.length} files uploaded to Cloudinary`);
+
+      const imageUrls = req.files.map((file) => file.path);
 
       res.json({
         success: 1,
@@ -135,7 +167,7 @@ app.post(
       console.error("Multiple upload error:", error);
       res.status(500).json({
         success: 0,
-        message: "Multiple image upload failed",
+        message: "Multiple image upload failed: " + error.message,
       });
     }
   }
