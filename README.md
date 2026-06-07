@@ -1,4 +1,4 @@
-# ⚙️ [Project Name] Backend API
+# ⚙️ ESN Unipi Backend API
 
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)](https://your-live-link.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
