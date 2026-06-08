@@ -343,8 +343,17 @@ app.get("/allemails", async (req, res) => {
     });
   }
 });
-// Schema for creating news with additional images
-const NewThing = mongoose.model("NewThing", newSchema, "newthings");
+const newsSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  image: String,
+  additionalImages: [String],
+  paragraph: String,
+  date: { type: Date, default: Date.now },
+});
+
+// 2. Pass the 3rd argument ("newthings") to lock the collection name
+const NewThing = mongoose.model("NewThing", newsSchema, "newthings");
 
 app.post("/addnew", async (req, res) => {
   try {
