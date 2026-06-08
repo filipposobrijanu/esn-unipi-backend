@@ -105,6 +105,18 @@ app.post(
   }
 );*/
 // Updated upload endpoint for single image
+// 1. Define the Schema first
+const newsSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  image: String,
+  additionalImages: [String],
+  paragraph: String,
+  date: { type: Date, default: Date.now },
+});
+
+// 2. Pass the 3rd argument ("newthings") to lock the collection name
+const NewThing = mongoose.model("NewThing", newsSchema, "newthings");
 const upload = multer({
   storage: storage,
   limits: {
