@@ -10,7 +10,13 @@ const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 app.use(express.json());
-app.use(cors());
+
+// Replace this with your actual Netlify URL
+app.use(cors({
+  origin: 'https://esn-unipi-12345.netlify.app', // Make sure this matches exactly
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 
 const API_URL = "https://esn-unipi-backend.onrender.com";
 const port = process.env.PORT || 4000;
