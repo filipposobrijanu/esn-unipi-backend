@@ -11,10 +11,24 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 app.use(express.json());
 
-// Replace this with your actual Netlify URL
+// Λίστα με τα επιτρεπόμενα origins
+const allowedOrigins = [
+  'https://esn-unipi-12345.netlify.app',
+  'https://esn-unipi-admin-12345.netlify.app'
+];
+
 app.use(cors({
-  origin: 'https://esn-unipi-12345.netlify.app', // Make sure this matches exactly
-  methods: ['GET', 'POST'],
+  origin: function (origin, callback) {
+    // Επιτρέπει αιτήματα από εργαλεία (π.χ. Postman) που δεν στέλνουν origin
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
