@@ -344,7 +344,7 @@ app.get("/allemails", async (req, res) => {
   }
 });
 // Schema for creating news with additional images
-const NewThing = mongoose.model("NewThing", newSchema, "newthings", {
+const NewThing = mongoose.model("NewThing", {
   id: {
     type: Number,
     required: true,
