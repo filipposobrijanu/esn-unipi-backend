@@ -23,4 +23,4 @@ The server-side infrastructure for the [Project Name]. This backend handles data
 
 1. **Clone the repository:**
 ```bash
-   git clone [https://github.com/filipposobrijanu/](https://github.com/filipposobrijanu/)[Your-Repo-Name].git
+   git clone [https://github.com/filipposobrijanu/](https://github.com/filipposobrijanu/)[esn-unipi-backend].git
