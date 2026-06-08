@@ -344,33 +344,7 @@ app.get("/allemails", async (req, res) => {
   }
 });
 // Schema for creating news with additional images
-const NewThing = mongoose.model("NewThing", {
-  id: {
-    type: Number,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  additionalImages: [
-    {
-      type: String,
-    },
-  ],
-  paragraph: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+const NewThing = mongoose.model("NewThing", newSchema, "newthings");
 
 app.post("/addnew", async (req, res) => {
   try {
