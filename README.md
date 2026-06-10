@@ -50,29 +50,12 @@ git clone https://github.com/filipposobrijanu/esn-unipi-backend.git
 cd esn-unipi-backend
 ```
 
-**2. Configure Environment Infrastructure:**
-Create a `.env` file in the root configuration directory to handle localized server configurations and runtime secrets:
-```env
-EMAIL_USER=".."
-EMAIL_PASS=".."
-PORT=5000
-CLOUDINARY_CLOUD_NAME=".."
-CLOUDINARY_API_KEY=".."
-CLOUDINARY_API_SECRET=".."
-NODE_ENV=production
-FRONTEND_URL=https://blabber-chat.netlify.app
-GOOGLE_CLIENT_ID=".."
-GOOGLE_CLIENT_SECRET=".."
-MONGODB_URI=".."
-RESEND_API_KEY=".."
-```
-
-**3. Dependency Provisioning:**
+**2. Dependency Provisioning:**
 ```bash
 npm install
 ```
 
-**4. Execute Local Runtime Server:**
+**3. Execute Local Runtime Server:**
 ```bash
 # Run the application with hot-reloading active via nodemon
 npm run dev
