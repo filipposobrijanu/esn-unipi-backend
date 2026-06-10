@@ -53,10 +53,18 @@ cd esn-unipi-backend
 **2. Configure Environment Infrastructure:**
 Create a `.env` file in the root configuration directory to handle localized server configurations and runtime secrets:
 ```env
+EMAIL_USER=".."
+EMAIL_PASS=".."
 PORT=5000
-MONGODB_URI="mongodb+srv://<username>:<password>@cluster.mongodb.net/esn_unipi?retryWrites=true&w=majority"
-JWT_SECRET="your_fallback_cryptographic_signing_secret_string"
-NODE_ENV="development"
+CLOUDINARY_CLOUD_NAME=".."
+CLOUDINARY_API_KEY=".."
+CLOUDINARY_API_SECRET=".."
+NODE_ENV=production
+FRONTEND_URL=https://blabber-chat.netlify.app
+GOOGLE_CLIENT_ID=".."
+GOOGLE_CLIENT_SECRET=".."
+MONGODB_URI=".."
+RESEND_API_KEY=".."
 ```
 
 **3. Dependency Provisioning:**
