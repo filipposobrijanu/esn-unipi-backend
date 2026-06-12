@@ -27,17 +27,24 @@
 
 ### 🛠️ Production Tech Stack
 
-**Runtime Environment & Server Framework**
+**Runtime Environment & Core Framework**
 <p align="left">
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js" />
 </p>
 
-**Data Persistence & Authentication Layer**
+**Data Persistence & Modeling**
 <p align="left">
   <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/JSON_Web_Tokens-000000?style=for-the-badge&logo=jsonwebtext&logoColor=white" alt="JWT" />
   <img src="https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white" alt="Mongoose" />
+</p>
+
+**Security, Authentication & Utilities**
+<p align="left">
+  <img src="https://img.shields.io/badge/JSON_Web_Tokens-000000?style=for-the-badge&logo=jsonwebtext&logoColor=white" alt="JWT" />
+  <img src="https://img.shields.io/badge/Bcrypt-000000?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Bcrypt Hash" />
+  <img src="https://img.shields.io/badge/CORS-000000?style=for-the-badge" alt="CORS" />
+  <img src="https://img.shields.io/badge/Dotenv-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="Dotenv" />
 </p>
 
 ---
